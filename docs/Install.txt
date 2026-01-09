@@ -1,0 +1,21 @@
+# Create service user and set permissions
+sudo useradd --system --no-create-home --shell /usr/sbin/nologin onewire
+sudo mkdir -p /opt/onewire
+sudo chown -R onewire:onewire /opt/onewire
+
+# Copy your app to /opt/onewire, create venv and install requirements
+sudo -u onewire python3 -m venv /opt/onewire/venv
+sudo -u onewire /opt/onewire/venv/bin/python -m pip install --upgrade pip
+sudo -u onewire /opt/onewire/venv/bin/pip install -r /opt/onewire/requirements.txt
+
+# Place the .env file (owned by onewire)
+sudo cp /path/to/.env /opt/onewire/.env
+sudo chown onewire:onewire /opt/onewire/.env
+sudo chmod 600 /opt/onewire/.env
+
+# Install the systemd unit (you created /etc/systemd/system/onewire.service above)
+sudo systemctl daemon-reload
+sudo systemctl enable --now onewire.service
+sudo systemctl status onewire.service
+# View logs
+sudo journalctl -u onewire.service -f
