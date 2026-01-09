@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# Script to copy updated OneWire Backend files to /opt/onewire/ and restart the service
+
 echo "Updating OneWire Backend..."
 sudo cp -v --update /home/andy/OneWireToMQTT/OneWire_Backend.py /opt/onewire/
 sudo cp -v --update /home/andy/OneWireToMQTT/owtemp.ini /opt/onewire/
