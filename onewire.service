@@ -1,0 +1,20 @@
+[Unit]
+Description=OneWire Backend FastAPI
+After=network.target
+
+[Service]
+Type=simple
+User=onewire
+Group=onewire
+WorkingDirectory=/opt/onewire
+EnvironmentFile=/opt/onewire/.env
+# Ensure the venv uvicorn is used; adjust path if different
+ExecStart=/opt/onewire/venv/bin/uvicorn OneWire_Backend:app --host 127.0.0.1 --port 8000 --workers 1
+Restart=on-failure
+RestartSec=5
+LimitNOFILE=65536
+# Optional: set a small timeout for stop to allow graceful shutdown
+TimeoutStopSec=15
+
+[Install]
+WantedBy=multi-user.target
